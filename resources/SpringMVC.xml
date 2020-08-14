@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <!--1.开启【环境:组件-扫描】== MVC的C Controller层 -->
+    <context:component-scan base-package="com.kusonl.controller" />
+
+    <!-- 2.开启【默认mvc配置】
+    默认会帮我们 注册【默认处理请求，参数和返回值的类】;
+    其中最主要的两个类：DefaultAnnotationHandlerMapping 和 AnnotationMethodHandlerAdapter ，
+    分别为HandlerMapping的实现类和HandlerAdapter的实现类】-->
+    <mvc:annotation-driven />
+    <!--<mvc:annotation-driven conversion-service="conversionService" />-->
+
+    <!--3.配置【DispatcherServlet(mvc)额外放行的资源】-->
+    <mvc:resources mapping="/images/**" location="/images/" />
+    <mvc:resources mapping="/css/**" location="/css/" />
+    <mvc:resources mapping="/js/**" location="/js/" />
+
+    <!--4.配置【.view.内部资源视图解析器（解析为对应的jsp）】-->
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <!--5。配置【Spring.format 格式转换服务工厂Bean】-->
+    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+        <property name="converters">
+            <set>
+                <!--<bean class=""></bean>-->
+            </set>
+        </property>
+    </bean>
+
+    <!--6.配置【通用多部分解析器】== 文件传输-->
+    <bean name="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="maxUploadSize" value="10000000"></property>
+    </bean>
+
+    <!--7.配置【自定义的异常处理解析器】-->
+
+    <!--8.配置【mvc:拦截器】-->
+<!--    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/**"/>
+            <bean class=""></bean>
+        </mvc:interceptor>
+    </mvc:interceptors>-->
+
+</beans>

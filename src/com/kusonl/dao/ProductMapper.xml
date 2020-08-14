@@ -1,0 +1,510 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.kusonl.dao.ProductMapper">
+  <resultMap id="BaseResultMap" type="com.kusonl.domain.Product">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="name" jdbcType="VARCHAR" property="name" />
+    <result column="price" jdbcType="REAL" property="price" />
+    <result column="pic" jdbcType="VARCHAR" property="pic" />
+    <result column="createtime" jdbcType="TIMESTAMP" property="createtime" />
+  </resultMap>
+  <resultMap extends="BaseResultMap" id="ResultMapWithBLOBs" type="com.kusonl.domain.Product">
+    <result column="detail" jdbcType="LONGVARCHAR" property="detail" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    id, name, price, pic, createtime
+  </sql>
+  <sql id="Blob_Column_List">
+    detail
+  </sql>
+  <select id="selectByExampleWithBLOBs" parameterType="com.kusonl.domain.ProductExample" resultMap="ResultMapWithBLOBs">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" parameterType="com.kusonl.domain.ProductExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="ResultMapWithBLOBs">
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from product
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from product
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.kusonl.domain.ProductExample">
+    delete from product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.kusonl.domain.Product">
+    insert into product (id, name, price, 
+      pic, createtime, detail
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{price,jdbcType=REAL}, 
+      #{pic,jdbcType=VARCHAR}, #{createtime,jdbcType=TIMESTAMP}, #{detail,jdbcType=LONGVARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.kusonl.domain.Product">
+    insert into product
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        id,
+      </if>
+      <if test="name != null">
+        name,
+      </if>
+      <if test="price != null">
+        price,
+      </if>
+      <if test="pic != null">
+        pic,
+      </if>
+      <if test="createtime != null">
+        createtime,
+      </if>
+      <if test="detail != null">
+        detail,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        #{price,jdbcType=REAL},
+      </if>
+      <if test="pic != null">
+        #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <insert id="insertBatch" parameterType="java.util.List">
+    insert into product (id, name, price, 
+      pic, createtime, detail
+      )
+    values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      (#{item.id,jdbcType=INTEGER}, #{item.name,jdbcType=VARCHAR}, #{item.price,jdbcType=REAL}, 
+        #{item.pic,jdbcType=VARCHAR}, #{item.createtime,jdbcType=TIMESTAMP}, #{item.detail,jdbcType=LONGVARCHAR}
+        )
+    </foreach>
+  </insert>
+  <insert id="insertBatchSelective" parameterType="java.util.List">
+    insert into product
+    (id, name, price, pic, createtime, detail)
+    values 
+    <foreach collection="list" index="index" item="item" separator=",">
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="item.id != null">
+          #{item.id,jdbcType=INTEGER},
+        </if>
+        <if test="item.id == null">
+          NULL,
+        </if>
+        <if test="item.name != null">
+          #{item.name,jdbcType=VARCHAR},
+        </if>
+        <if test="item.name == null">
+          NULL,
+        </if>
+        <if test="item.price != null">
+          #{item.price,jdbcType=REAL},
+        </if>
+        <if test="item.price == null">
+          NULL,
+        </if>
+        <if test="item.pic != null">
+          #{item.pic,jdbcType=VARCHAR},
+        </if>
+        <if test="item.pic == null">
+          NULL,
+        </if>
+        <if test="item.createtime != null">
+          #{item.createtime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="item.createtime == null">
+          NULL,
+        </if>
+        <if test="item.detail != null">
+          #{item.detail,jdbcType=LONGVARCHAR},
+        </if>
+        <if test="item.detail == null">
+          NULL,
+        </if>
+      </trim>
+    </foreach>
+  </insert>
+  <select id="countByExample" parameterType="com.kusonl.domain.ProductExample" resultType="java.lang.Long">
+    select count(*) from product
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update product
+    <set>
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.price != null">
+        price = #{record.price,jdbcType=REAL},
+      </if>
+      <if test="record.pic != null">
+        pic = #{record.pic,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createtime != null">
+        createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.detail != null">
+        detail = #{record.detail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map">
+    update product
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=REAL},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP},
+      detail = #{record.detail,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update product
+    set id = #{record.id,jdbcType=INTEGER},
+      name = #{record.name,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=REAL},
+      pic = #{record.pic,jdbcType=VARCHAR},
+      createtime = #{record.createtime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.kusonl.domain.Product">
+    update product
+    <set>
+      <if test="name != null">
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="price != null">
+        price = #{price,jdbcType=REAL},
+      </if>
+      <if test="pic != null">
+        pic = #{pic,jdbcType=VARCHAR},
+      </if>
+      <if test="createtime != null">
+        createtime = #{createtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="detail != null">
+        detail = #{detail,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.kusonl.domain.Product">
+    update product
+    set name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      pic = #{pic,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP},
+      detail = #{detail,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.kusonl.domain.Product">
+    update product
+    set name = #{name,jdbcType=VARCHAR},
+      price = #{price,jdbcType=REAL},
+      pic = #{pic,jdbcType=VARCHAR},
+      createtime = #{createtime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateBatchByPrimaryKey" parameterType="java.util.List">
+    update product
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="name =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.name}
+        </foreach>
+      </trim>
+      <trim prefix="price =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.price}
+        </foreach>
+      </trim>
+      <trim prefix="pic =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.pic}
+        </foreach>
+      </trim>
+      <trim prefix="createtime =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.createtime}
+        </foreach>
+      </trim>
+      <trim prefix="detail =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.detail}
+        </foreach>
+      </trim>
+    </trim>
+    where id in 
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+       #{item.id} 
+    </foreach>
+  </update>
+  <update id="updateBatchByPrimaryKeySelective" parameterType="java.util.List">
+    update product
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="name =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.name != null ">
+            when  #{item.id} then #{item.name}
+          </if>
+          <if test="item.name == null ">
+            when  #{item.id} then product.name
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="price =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.price != null ">
+            when  #{item.id} then #{item.price}
+          </if>
+          <if test="item.price == null ">
+            when  #{item.id} then product.price
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="pic =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.pic != null ">
+            when  #{item.id} then #{item.pic}
+          </if>
+          <if test="item.pic == null ">
+            when  #{item.id} then product.pic
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="createtime =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.createtime != null ">
+            when  #{item.id} then #{item.createtime}
+          </if>
+          <if test="item.createtime == null ">
+            when  #{item.id} then product.createtime
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="detail =case id" suffix="end,">
+        <foreach collection="list" index="index" item="item" separator=" ">
+          <if test="item.detail != null ">
+            when  #{item.id} then #{item.detail}
+          </if>
+          <if test="item.detail == null ">
+            when  #{item.id} then product.detail
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    where id in 
+    <foreach close=")" collection="list" index="index" item="item" open="(" separator=",">
+       #{item.id} 
+    </foreach>
+  </update>
+  <update id="updateBatchByExample" parameterType="map">
+    update product
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="name =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.name}
+        </foreach>
+      </trim>
+      <trim prefix="price =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.price}
+        </foreach>
+      </trim>
+      <trim prefix="pic =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.pic}
+        </foreach>
+      </trim>
+      <trim prefix="createtime =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.createtime}
+        </foreach>
+      </trim>
+      <trim prefix="detail =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          when  #{item.id} then #{item.detail}
+        </foreach>
+      </trim>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateBatchByExampleSelective" parameterType="map">
+    update product
+    <trim prefix="set" suffixOverrides=",">
+      <trim prefix="name =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.name != null ">
+            when  #{item.id} then #{item.name}
+          </if>
+          <if test="item.name == null ">
+            when  #{item.id} then product.name
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="price =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.price != null ">
+            when  #{item.id} then #{item.price}
+          </if>
+          <if test="item.price == null ">
+            when  #{item.id} then product.price
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="pic =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.pic != null ">
+            when  #{item.id} then #{item.pic}
+          </if>
+          <if test="item.pic == null ">
+            when  #{item.id} then product.pic
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="createtime =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.createtime != null ">
+            when  #{item.id} then #{item.createtime}
+          </if>
+          <if test="item.createtime == null ">
+            when  #{item.id} then product.createtime
+          </if>
+        </foreach>
+      </trim>
+      <trim prefix="detail =case id" suffix="end,">
+        <foreach collection="recordList" index="index" item="item" separator=" ">
+          <if test="item.detail != null ">
+            when  #{item.id} then #{item.detail}
+          </if>
+          <if test="item.detail == null ">
+            when  #{item.id} then product.detail
+          </if>
+        </foreach>
+      </trim>
+    </trim>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+</mapper>

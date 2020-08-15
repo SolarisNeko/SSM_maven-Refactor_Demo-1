@@ -6,9 +6,8 @@ import com.kusonl.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.servlet.ModelAndView;
 
-import javax.jms.Session;
+import javax.servlet.http.HttpSession;
 
 @Controller
 public class LoginController {
@@ -19,20 +18,22 @@ public class LoginController {
     private UserService userService;
 
     @RequestMapping("check_login")
-    public ModelAndView login(String username, String password, Session session) {
-
-        ModelAndView modelAndView = new ModelAndView();
+    public String login(String username, String password, HttpSession session) {
 
         User user = userService.Login(username, password);
             // User表没有password, 用id顶替
 
-        if (username.equals(user.getUsername()) && password.equals(user.getId()) ) {
-            modelAndView.setViewName("product");
-            return modelAndView;
+        // 模拟查询
+        if (username.equals("admin") && password.equals("123") ) {
+
+            session.setAttribute("user", username);
+
+            return "redirect:/product";
+
         }
 
-        modelAndView.setViewName("login");
-        return modelAndView;
+        return "login";
+
 
     }
 

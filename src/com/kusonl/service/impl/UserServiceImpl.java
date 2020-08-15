@@ -30,6 +30,11 @@ public class UserServiceImpl implements UserService {
 
         List<User> users = userMapper.selectByExample(userExample);
 
-        return users.get(0);
+        // 判一下 List.size() 是否为 0, 防止报 IndexOutOfBoundsException
+        if (users.size() != 0) {
+            return users.get(0);
+        }
+
+        return null ;
     }
 }

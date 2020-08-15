@@ -20,7 +20,7 @@ public class LoginHandlerInterceptor implements HandlerInterceptor {
         }
 
         // 必须使用【.getRequestDispatcher()】,不然用户无法访问【login.jsp】
-        request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+        request.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(request, response);
         return false;
 
 

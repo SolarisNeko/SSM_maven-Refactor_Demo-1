@@ -23,7 +23,7 @@
     <!--<mvc:annotation-driven conversion-service="conversionService" />-->
 
 
-    <!--3.配置【DispatcherServlet(mvc)额外放行的资源】-->
+    <!--3.配置【DispatcherServlet(MVC Core) 额外放行的资源】-->
     <mvc:resources mapping="/images/**" location="/images/" />
     <mvc:resources mapping="/css/**" location="/css/" />
     <mvc:resources mapping="/js/**" location="/js/" />
@@ -53,14 +53,15 @@
 
 
     <!--7.配置【自定义的异常处理解析器】-->
+    <bean class="com.kusonl.myException.MyHER" />
 
 
     <!--8.配置【mvc:拦截器】-->
-<!--    <mvc:interceptors>
+    <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/**"/>
-            <bean class=""></bean>
+            <bean class="com.kusonl.interceptor.LoginHandlerInterceptor"></bean>
         </mvc:interceptor>
-    </mvc:interceptors>-->
+    </mvc:interceptors>
 
 </beans>

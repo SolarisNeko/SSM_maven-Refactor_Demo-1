@@ -7,23 +7,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public class LoginHandlerInterceptor implements HandlerInterceptor {
-
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 
         String requestURI = request.getRequestURI();
 
         if (requestURI.endsWith("login")) {
-            return true;
-        } else if (request.getSession().getAttribute("user") != null) {
-            return true;
+            return true; // 通过
+        }
+        if (request.getSession().getAttribute("user") != null) {
+            return true; // 有缓存，通过
         }
 
-        // 必须使用【.getRequestDispatcher()】,不然用户无法访问【login.jsp】
-        request.getRequestDispatcher("WEB-INF/jsp/login.jsp").forward(request, response);
+        request.getRequestDispatcher("/WEB-INF/jsp/login.jsp").forward(request, response);
+
         return false;
-
-
     }
 
     @Override

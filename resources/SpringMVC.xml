@@ -19,7 +19,7 @@
     默认会帮我们注册【默认处理の请求】，【参数和返回值の类】;
     其中【最主要的两个类】：DefaultAnnotationHandlerMapping 和 AnnotationMethodHandlerAdapter ，
     分别为HandlerMapping的实现类和HandlerAdapter的实现类】-->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven conversion-service="myConverterService" />
     <!--<mvc:annotation-driven conversion-service="conversionService" />-->
 
 
@@ -37,9 +37,10 @@
 
 
     <!--5。配置【Spring.format 格式转换服务工厂Bean】-->
-    <bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
+    <bean id="myConverterService" class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
             <set>
+                <bean class="com.kusonl.utils.DateConverter" />
                 <!--<bean class=""></bean>-->
             </set>
         </property>
@@ -63,5 +64,7 @@
             <bean class="com.kusonl.interceptor.LoginHandlerInterceptor"></bean>
         </mvc:interceptor>
     </mvc:interceptors>
+
+
 
 </beans>
